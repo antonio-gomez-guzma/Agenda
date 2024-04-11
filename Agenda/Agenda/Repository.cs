@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using Microsoft.VisualBasic;
 
 namespace Agenda
 {
@@ -15,14 +16,11 @@ namespace Agenda
         public Repository()
         {
             connection = ContextDB.CreateConnection(NombreBD);
-        }
-
-        private void OpenConnection() => connection.Open();
-        private void CloseConnection() => connection.Close();  
+        } 
 
         public List<Contacto> GetAllContacts()
         {
-            OpenConnection();
+            connection.Open();
 
             string query = "SELECT * FROM Contactos";
             List<Contacto> lista = new List<Contacto>();
@@ -51,10 +49,32 @@ namespace Agenda
                 Console.WriteLine(ex.ToString());
             }finally
             {
-                CloseConnection();
+                connection.Close();
             }
 
             return lista;
+        }
+
+        public void AniadirContacto(int id, string nombre, string FechaNacimiento, string telefono, string? Observacion)
+        {
+            connection.Open();
+            string query = $"INSERT INTO Contactos VALUES ('{nombre}','{FechaNacimiento}','{telefono}','{Observacion}')";
+
+            try
+            {
+                if (connection != null)
+                {
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    cmd.ExecuteNonQuery();
+                }
+
+            }catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }finally
+            {
+                connection.Close();
+            }
         }
     }
 }

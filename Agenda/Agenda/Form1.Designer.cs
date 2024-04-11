@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             groupBox_Contacto = new GroupBox();
             richTextBox_Observaciones = new RichTextBox();
             label_Observaciones = new Label();
@@ -44,9 +45,13 @@
             button_Modificar = new Button();
             button_Cancelar = new Button();
             button_Guardar = new Button();
+            form1BindingSource = new BindingSource(components);
             dataGridView_Contactos = new DataGridView();
+            form1BindingSource1 = new BindingSource(components);
             groupBox_Contacto.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)form1BindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView_Contactos).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)form1BindingSource1).BeginInit();
             SuspendLayout();
             // 
             // groupBox_Contacto
@@ -148,6 +153,7 @@
             // 
             textBox_ID.Location = new Point(249, 30);
             textBox_ID.Name = "textBox_ID";
+            textBox_ID.ReadOnly = true;
             textBox_ID.Size = new Size(58, 31);
             textBox_ID.TabIndex = 1;
             textBox_ID.TextChanged += textBoxID;
@@ -212,6 +218,10 @@
             button_Guardar.UseVisualStyleBackColor = true;
             button_Guardar.Click += buttonGuardar;
             // 
+            // form1BindingSource
+            // 
+            form1BindingSource.DataSource = typeof(Form1);
+            // 
             // dataGridView_Contactos
             // 
             dataGridView_Contactos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -222,6 +232,12 @@
             dataGridView_Contactos.Size = new Size(818, 255);
             dataGridView_Contactos.TabIndex = 6;
             dataGridView_Contactos.CellContentClick += dataGridViewContactos;
+            List<Contacto> contactos = repository.GetAllContacts();
+            dataGridView_Contactos.DataSource = contactos;
+            // 
+            // form1BindingSource1
+            // 
+            form1BindingSource1.DataSource = typeof(Form1);
             // 
             // Form1
             // 
@@ -238,7 +254,9 @@
             Name = "Form1";
             groupBox_Contacto.ResumeLayout(false);
             groupBox_Contacto.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)form1BindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView_Contactos).EndInit();
+            ((System.ComponentModel.ISupportInitialize)form1BindingSource1).EndInit();
             ResumeLayout(false);
         }
 
@@ -260,6 +278,8 @@
         private Button button_Modificar;
         private Button button_Cancelar;
         private Button button_Guardar;
+        private BindingSource form1BindingSource;
         private DataGridView dataGridView_Contactos;
+        private BindingSource form1BindingSource1;
     }
 }
