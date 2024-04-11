@@ -84,7 +84,15 @@ namespace Agenda
 
         private void buttonAniadir(object sender, EventArgs e)
         {
-            ESTADO = state.ANIADIR;      
+            ESTADO = state.ANIADIR; 
+            button_Eliminar.Visible = false;
+            button_Modificar.Visible = false;
+            textBox_Nombre.Enabled = true;
+            dateTimePicker_FechaNacimiento.Enabled = true;
+            textBox_Telefono.Enabled = true;
+            richTextBox_Observaciones.Enabled = true;
+            
+            
         }
 
         private void buttonEliminar(object sender, EventArgs e)
@@ -109,9 +117,17 @@ namespace Agenda
                 repository.AniadirContacto(1, Nombre, FechaNacimiento, Telefono, Observaciones);
                 List<Contacto> contactos = repository.GetAllContacts();
                 dataGridView_Contactos.DataSource = contactos;
-            }else if (ESTADO == state.ELIMINAR)
+                button_Eliminar.Visible = true;
+                button_Modificar.Visible = true;
+                textBox_Nombre.Enabled = false;
+                dateTimePicker_FechaNacimiento.Enabled = false;
+                textBox_Telefono.Enabled = false;
+                richTextBox_Observaciones.Enabled = false;
+                Reset();
+            }
+            else if (ESTADO == state.ELIMINAR)
             {
-                
+         
             }
             else if (ESTADO == state.MODIFICAR)
             {
@@ -121,7 +137,15 @@ namespace Agenda
 
         private void dataGridViewContactos(object sender, DataGridViewCellEventArgs e)
         {
-          
+           
+
+        }
+
+        private void Reset()
+        {
+            textBox_Nombre.Text= string.Empty;
+            textBox_Telefono.Text= string.Empty;
+            richTextBox_Observaciones.Text = string.Empty;
         }
      
     }
