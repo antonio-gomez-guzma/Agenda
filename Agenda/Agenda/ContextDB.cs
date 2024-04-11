@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 using System.Data.SqlClient;
 
 namespace Agenda
 {
-    internal class ContextDB
+    internal static class ContextDB
     {
-        private void Conection()
-        {
-          
-        }
+        private const string connectionServer = "WINAPJCNZBCAGFY\\SQLEXPRESS";
+
+        internal static SqlConnection CreateConnection(string db) => new(BuildConnectionString(db));
+        private static string BuildConnectionString(string db) =>
+            $"Server={connectionServer};Database={db};Trusted_Connection=True;";
+
     }
 }
