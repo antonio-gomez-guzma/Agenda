@@ -76,5 +76,43 @@ namespace Agenda
                 connection.Close();
             }
         }
+
+        public Contacto GetContactById(int id)
+        {
+            connection.Open();
+
+            string query = $"SELECT * FROM Contactos WHERE ID = {id}";
+            List<Contacto> lista = new List<Contacto>();
+
+            try
+            {
+                if (connection != null)
+                {
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+
+
+                    Contacto contacto = new Contacto(
+                                                       reader.GetInt32(0),
+                                                       reader.GetString(1),
+                                                       reader.GetDateTime(2),
+                                                       reader.GetString(3),
+                                                       reader.GetString(4));
+                            
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            return Contacto;
+        }
     }
 }

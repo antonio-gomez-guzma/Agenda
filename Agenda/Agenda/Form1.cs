@@ -1,4 +1,5 @@
 using Microsoft.VisualBasic;
+using System.Windows.Forms;
 
 namespace Agenda
 {
@@ -137,8 +138,14 @@ namespace Agenda
 
         private void dataGridViewContactos(object sender, DataGridViewCellEventArgs e)
         {
-           
-
+            try
+            {
+                DataGridViewRow selectedRow = dataGridView_Contactos.Rows[e.RowIndex];     
+                richTextBox_Observaciones.Text = selectedRow.Cells["Id"].Value.ToString();
+            }catch (Exception ex)
+            {
+               Console.WriteLine(ex.ToString());
+            }
         }
 
         private void Reset()
@@ -146,6 +153,17 @@ namespace Agenda
             textBox_Nombre.Text= string.Empty;
             textBox_Telefono.Text= string.Empty;
             richTextBox_Observaciones.Text = string.Empty;
+        }
+
+        private void MostrarContactoById(int id)
+        {
+            Contacto contacto = repository.GetContactById(id);
+            if (contacto != null)
+            {
+                //textBox_ID.Text = (string)contacto.Id;    //TERMINAR
+
+            }
+
         }
      
     }
