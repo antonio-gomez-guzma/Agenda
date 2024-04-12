@@ -34,7 +34,8 @@ namespace Agenda
 
             try
             {
-                command.CommandText = "SELECT * FROM Contactos";
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.CommandText = "GetContacts";
                 if (connection != null)
                 {
                     SqlDataReader reader = command.ExecuteReader();
