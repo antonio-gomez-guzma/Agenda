@@ -82,7 +82,7 @@ namespace Agenda
             connection.Open();
 
             string query = $"SELECT * FROM Contactos WHERE ID = {id}";
-            List<Contacto> lista = new List<Contacto>();
+            Contacto contacto = null;
 
             try
             {
@@ -92,13 +92,13 @@ namespace Agenda
                     SqlDataReader reader = cmd.ExecuteReader();
 
 
-
-                    Contacto contacto = new Contacto(
-                                                       reader.GetInt32(0),
-                                                       reader.GetString(1),
-                                                       reader.GetDateTime(2),
-                                                       reader.GetString(3),
-                                                       reader.GetString(4));
+                    reader.Read();
+                    contacto = new Contacto(
+                                            reader.GetInt32(0),
+                                            reader.GetString(1),
+                                            reader.GetDateTime(2),
+                                            reader.GetString(3),
+                                            reader.GetString(4));
                             
                     
                 }
@@ -112,7 +112,7 @@ namespace Agenda
                 connection.Close();
             }
 
-            return Contacto;
+            return contacto;
         }
     }
 }

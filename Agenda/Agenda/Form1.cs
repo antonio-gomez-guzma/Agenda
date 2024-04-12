@@ -140,8 +140,9 @@ namespace Agenda
         {
             try
             {
-                DataGridViewRow selectedRow = dataGridView_Contactos.Rows[e.RowIndex];     
-                richTextBox_Observaciones.Text = selectedRow.Cells["Id"].Value.ToString();
+                DataGridViewRow selectedRow = dataGridView_Contactos.Rows[e.RowIndex];
+                //richTextBox_Observaciones.Text = selectedRow.Cells["Id"].Value.ToString();
+                MostrarContactoById((int)selectedRow.Cells["Id"].Value);
             }catch (Exception ex)
             {
                Console.WriteLine(ex.ToString());
@@ -160,7 +161,11 @@ namespace Agenda
             Contacto contacto = repository.GetContactById(id);
             if (contacto != null)
             {
-                //textBox_ID.Text = (string)contacto.Id;    //TERMINAR
+                textBox_ID.Text = contacto.Id.ToString();    
+                textBox_Nombre.Text = contacto.Nombre;
+                dateTimePicker_FechaNacimiento.Text = contacto.FechaNacimiento.ToString();
+                textBox_Telefono.Text = contacto.Telefono;
+                richTextBox_Observaciones.Text = contacto.Observaciones;
 
             }
 
