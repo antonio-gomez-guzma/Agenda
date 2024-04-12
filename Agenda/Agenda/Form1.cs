@@ -12,6 +12,7 @@ namespace Agenda
             InitializeComponent();
             List<Contacto> contactos = repository.GetAllContacts();
             dataGridView_Contactos.DataSource = contactos;
+            Reset();
         }
         private string TextId;
         private string Nombre;
@@ -88,7 +89,8 @@ namespace Agenda
 
         private void buttonAniadir(object sender, EventArgs e)
         {
-            ESTADO = state.ANIADIR; 
+            ESTADO = state.ANIADIR;
+            Reset();
             button_Eliminar.Visible = false;
             button_Modificar.Visible = false;
             textBox_Nombre.Enabled = true;
@@ -107,36 +109,60 @@ namespace Agenda
                 button_Aniadir.Visible = false;
                 button_Modificar.Visible = false;
                 textBox_ID.BackColor = Color.DarkRed;
-                
+                                
             }
 
         }
 
         private void buttonModificar(object sender, EventArgs e)
         {
-            ESTADO = state.MODIFICAR;
+            if (textBox_ID.Text != string.Empty)
+            { 
+                ESTADO = state.MODIFICAR;
+                button_Aniadir.Visible = false;
+                button_Eliminar.Visible = false;
+                textBox_Nombre.Enabled = true;
+                dateTimePicker_FechaNacimiento.Enabled = true;
+                textBox_Telefono.Enabled = true;
+                richTextBox_Observaciones.Enabled = true;
+                textBox_ID.BackColor = Color.LightGoldenrodYellow;
+            }
         }
 
         private void buttonCancelar(object sender, EventArgs e)
         {
             if (ESTADO == state.ANIADIR)
             {
+                button_Eliminar.Visible = true;
+                button_Modificar.Visible = true;
+                textBox_Nombre.Enabled = false;
+                dateTimePicker_FechaNacimiento.Enabled = false;
+                textBox_Telefono.Enabled = false;
+                richTextBox_Observaciones.Enabled = false;
                 Reset();
             }
             else if (ESTADO == state.ELIMINAR)
             {
-                
+                button_Aniadir.Visible = true;
+                button_Modificar.Visible = true;
                 Reset();
 
             }
             else if (ESTADO == state.MODIFICAR)
             {
+                button_Eliminar.Visible = true;
+                button_Aniadir.Visible = true;
+                textBox_Nombre.Enabled = false;
+                dateTimePicker_FechaNacimiento.Enabled = false;
+                textBox_Telefono.Enabled = false;
+                richTextBox_Observaciones.Enabled = false;
                 Reset();
             }
             else
             {
                 Reset();
             }
+            ESTADO = state.ESPERA;
         }
 
         private void buttonGuardar(object sender, EventArgs e)
@@ -167,7 +193,20 @@ namespace Agenda
             }
             else if (ESTADO == state.MODIFICAR)
             {
-                
+                repository.AlterContactById(Int32.Parse(textBox_ID.Text),
+                                            textBox_Nombre.Text,
+                                            dateTimePicker_FechaNacimiento.Text,
+                                            textBox_Telefono.Text,
+                                            richTextBox_Observaciones.Text);
+                List<Contacto> contactos = repository.GetAllContacts();
+                dataGridView_Contactos.DataSource = contactos;
+                button_Eliminar.Visible = true;
+                button_Aniadir.Visible = true;
+                textBox_Nombre.Enabled = false;
+                dateTimePicker_FechaNacimiento.Enabled = false;
+                textBox_Telefono.Enabled = false;
+                richTextBox_Observaciones.Enabled = false;
+                Reset();
             }
         }
 

@@ -138,5 +138,29 @@ namespace Agenda
                 connection.Close();
             }
         }
+        public void AlterContactById(int id, string nombre, string FechaNacimiento, string telefono, string? Observacion)
+        {
+            connection.Open();
+
+            string query = $"UPDATE Contactos SET Nombre = '{nombre}', FechaNacimiento = '{FechaNacimiento}', Telefono = '{telefono}',Observaciones = '{Observacion}' WHERE Id = {id}";
+
+            try
+            {
+                if (connection != null)
+                {
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }
