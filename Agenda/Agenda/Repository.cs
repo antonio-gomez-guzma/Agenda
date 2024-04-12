@@ -76,5 +76,91 @@ namespace Agenda
                 connection.Close();
             }
         }
+
+        public Contacto GetContactById(int id)
+        {
+            connection.Open();
+
+            string query = $"SELECT * FROM Contactos WHERE ID = {id}";
+            Contacto contacto = null;
+
+            try
+            {
+                if (connection != null)
+                {
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+
+                    reader.Read();
+                    contacto = new Contacto(
+                                            reader.GetInt32(0),
+                                            reader.GetString(1),
+                                            reader.GetDateTime(2),
+                                            reader.GetString(3),
+                                            reader.GetString(4));
+                            
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            return contacto;
+        }
+        public void ErraseContactById(int id)
+        {
+            connection.Open();
+
+            string query = $"DELETE FROM Contactos WHERE Id = {id}";
+
+            try
+            {
+                if (connection != null)
+                {
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public void AlterContactById(int id, string nombre, string FechaNacimiento, string telefono, string? Observacion)
+        {
+            connection.Open();
+
+            string query = $"UPDATE Contactos SET Nombre = '{nombre}', FechaNacimiento = '{FechaNacimiento}', Telefono = '{telefono}',Observaciones = '{Observacion}' WHERE Id = {id}";
+
+            try
+            {
+                if (connection != null)
+                {
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }

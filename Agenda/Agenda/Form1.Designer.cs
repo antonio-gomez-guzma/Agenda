@@ -76,6 +76,7 @@
             // 
             // richTextBox_Observaciones
             // 
+            richTextBox_Observaciones.Enabled = false;
             richTextBox_Observaciones.Location = new Point(249, 178);
             richTextBox_Observaciones.Name = "richTextBox_Observaciones";
             richTextBox_Observaciones.Size = new Size(347, 101);
@@ -95,6 +96,7 @@
             // 
             // textBox_Telefono
             // 
+            textBox_Telefono.Enabled = false;
             textBox_Telefono.Location = new Point(249, 141);
             textBox_Telefono.Name = "textBox_Telefono";
             textBox_Telefono.Size = new Size(174, 31);
@@ -113,6 +115,7 @@
             // 
             // dateTimePicker_FechaNacimiento
             // 
+            dateTimePicker_FechaNacimiento.Enabled = false;
             dateTimePicker_FechaNacimiento.Format = DateTimePickerFormat.Short;
             dateTimePicker_FechaNacimiento.ImeMode = ImeMode.NoControl;
             dateTimePicker_FechaNacimiento.Location = new Point(249, 104);
@@ -133,6 +136,7 @@
             // 
             // textBox_Nombre
             // 
+            textBox_Nombre.Enabled = false;
             textBox_Nombre.Location = new Point(249, 67);
             textBox_Nombre.Name = "textBox_Nombre";
             textBox_Nombre.Size = new Size(223, 31);
@@ -151,6 +155,7 @@
             // 
             // textBox_ID
             // 
+            textBox_ID.BackColor = Color.WhiteSmoke;
             textBox_ID.Location = new Point(249, 30);
             textBox_ID.Name = "textBox_ID";
             textBox_ID.ReadOnly = true;
@@ -227,13 +232,12 @@
             dataGridView_Contactos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView_Contactos.Location = new Point(12, 388);
             dataGridView_Contactos.Name = "dataGridView_Contactos";
+            dataGridView_Contactos.ReadOnly = true;
             dataGridView_Contactos.RowHeadersWidth = 62;
             dataGridView_Contactos.RowTemplate.Height = 33;
             dataGridView_Contactos.Size = new Size(818, 255);
             dataGridView_Contactos.TabIndex = 6;
             dataGridView_Contactos.CellContentClick += dataGridViewContactos;
-            List<Contacto> contactos = repository.GetAllContacts();
-            dataGridView_Contactos.DataSource = contactos;
             // 
             // form1BindingSource1
             // 
