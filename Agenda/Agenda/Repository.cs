@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using Microsoft.VisualBasic;
+using System.Diagnostics;
 
 namespace Agenda
 {
@@ -13,24 +14,30 @@ namespace Agenda
         private readonly SqlConnection connection;
         private const string NombreBD = "Agenda";
 
+        #region Repository
         public Repository()
         {
             connection = ContextDB.CreateConnection(NombreBD);
-        } 
+        }
+        #endregion
 
+        #region GetAllContacts
         public List<Contacto> GetAllContacts()
         {
             connection.Open();
+            SqlTransaction transaction = connection.BeginTransaction("ObtenerContactos");
 
-            string query = "SELECT * FROM Contactos";
+            SqlCommand command = connection.CreateCommand();
+            command.Connection = connection;
+            command.Transaction = transaction;
             List<Contacto> lista = new List<Contacto>();
 
             try
             {
+                command.CommandText = "SELECT * FROM Contactos";
                 if (connection != null)
                 {
-                    SqlCommand cmd = new SqlCommand(query, connection);
-                    SqlDataReader reader = cmd.ExecuteReader();
+                    SqlDataReader reader = command.ExecuteReader();
 
 
                     while (reader.Read())
@@ -43,9 +50,14 @@ namespace Agenda
                             reader.GetString(4)
                             ));
                     }
+                    reader.Close();
                 }
+                
+                transaction.Commit();
             }catch (Exception ex)
             {
+                
+                transaction.Rollback();
                 Console.WriteLine(ex.ToString());
             }finally
             {
@@ -54,42 +66,61 @@ namespace Agenda
 
             return lista;
         }
+        #endregion
 
+        #region AddContacts
         public void AniadirContacto(int id, string nombre, string FechaNacimiento, string telefono, string? Observacion)
         {
             connection.Open();
-            string query = $"INSERT INTO Contactos VALUES ('{nombre}','{FechaNacimiento}','{telefono}','{Observacion}')";
+
+            SqlTransaction transaction = connection.BeginTransaction("AniadirContacto");
+
+            SqlCommand command = connection.CreateCommand();
+            command.Connection = connection;
+            command.Transaction = transaction;
 
             try
             {
+                command.CommandText = $"INSERT INTO Contactos VALUES ('{nombre}','{FechaNacimiento}','{telefono}','{Observacion}')";
                 if (connection != null)
                 {
-                    SqlCommand cmd = new SqlCommand(query, connection);
-                    cmd.ExecuteNonQuery();
+           
+                    command.ExecuteNonQuery();
+                    MessageBox.Show("\nDatos insertados con éxito");
                 }
+
+                transaction.Commit();
 
             }catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                transaction.Rollback();
+                Debug.WriteLine(ex.ToString());
             }finally
             {
                 connection.Close();
             }
         }
+        #endregion
 
+        #region GetContactById
         public Contacto GetContactById(int id)
         {
             connection.Open();
 
-            string query = $"SELECT * FROM Contactos WHERE ID = {id}";
+            SqlTransaction transaction = connection.BeginTransaction("ObtenerContactoPorId");
+
+            SqlCommand command = connection.CreateCommand();
+            command.Connection = connection;
+            command.Transaction = transaction;
+       
             Contacto contacto = null;
 
             try
             {
+                command.CommandText = $"SELECT * FROM Contactos WHERE ID = {id}";
                 if (connection != null)
-                {
-                    SqlCommand cmd = new SqlCommand(query, connection);
-                    SqlDataReader reader = cmd.ExecuteReader();
+                {          
+                    SqlDataReader reader = command.ExecuteReader();
 
 
                     reader.Read();
@@ -100,11 +131,13 @@ namespace Agenda
                                             reader.GetString(3),
                                             reader.GetString(4));
                             
-                    
+                    reader.Close();
                 }
+                transaction.Commit();
             }
             catch (Exception ex)
             {
+                transaction.Rollback();
                 Console.WriteLine(ex.ToString());
             }
             finally
@@ -114,23 +147,33 @@ namespace Agenda
 
             return contacto;
         }
+        #endregion
+
+        #region ErraseContactById
         public void ErraseContactById(int id)
         {
             connection.Open();
 
-            string query = $"DELETE FROM Contactos WHERE Id = {id}";
+            SqlTransaction transaction = connection.BeginTransaction("EliminarContactoPorId");
+
+            SqlCommand command = connection.CreateCommand();
+            command.Connection = connection;
+            command.Transaction = transaction;
 
             try
             {
+                command.CommandText = $"DELETE FROM Contactos WHERE Id = {id}";
                 if (connection != null)
                 {
-                    SqlCommand cmd = new SqlCommand(query, connection);
-                    cmd.ExecuteNonQuery();
+                   
+                    command.ExecuteNonQuery();
 
                 }
+                transaction.Commit();
             }
             catch (Exception ex)
             {
+                transaction.Rollback();
                 Console.WriteLine(ex.ToString());
             }
             finally
@@ -138,11 +181,14 @@ namespace Agenda
                 connection.Close();
             }
         }
-        public void AlterContactById(int id, string nombre, string FechaNacimiento, string telefono, string? Observacion)
+        #endregion
+
+        #region AlterContactById
+        public void AlterContactById(int id, string nombre, DateTime FechaNacimiento, string telefono, string? Observacion)
         {
             connection.Open();
 
-            string query = $"UPDATE Contactos SET Nombre = '{nombre}', FechaNacimiento = '{FechaNacimiento}', Telefono = '{telefono}',Observaciones = '{Observacion}' WHERE Id = {id}";
+            string query = $"UPDATE Contactos SET Nombre = '{nombre}', FechaNacimiento = '{FechaNacimiento.Year}-{FechaNacimiento.Month}-{FechaNacimiento.Day}', Telefono = '{telefono}',Observaciones = '{Observacion}' WHERE Id = {id}";
 
             try
             {
@@ -162,5 +208,6 @@ namespace Agenda
                 connection.Close();
             }
         }
+        #endregion
     }
 }

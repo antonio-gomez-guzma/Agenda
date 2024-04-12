@@ -195,7 +195,7 @@ namespace Agenda
             {
                 repository.AlterContactById(Int32.Parse(textBox_ID.Text),
                                             textBox_Nombre.Text,
-                                            dateTimePicker_FechaNacimiento.Text,
+                                            dateTimePicker_FechaNacimiento.Value,
                                             textBox_Telefono.Text,
                                             richTextBox_Observaciones.Text);
                 List<Contacto> contactos = repository.GetAllContacts();
