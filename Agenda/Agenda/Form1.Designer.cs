@@ -232,6 +232,7 @@
             dataGridView_Contactos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView_Contactos.Location = new Point(12, 388);
             dataGridView_Contactos.Name = "dataGridView_Contactos";
+            dataGridView_Contactos.ReadOnly = true;
             dataGridView_Contactos.RowHeadersWidth = 62;
             dataGridView_Contactos.RowTemplate.Height = 33;
             dataGridView_Contactos.Size = new Size(818, 255);
