@@ -1,4 +1,5 @@
 using Microsoft.VisualBasic;
+using System;
 using System.Windows.Forms;
 
 namespace Agenda
@@ -9,6 +10,8 @@ namespace Agenda
         public Form1()
         {
             InitializeComponent();
+            List<Contacto> contactos = repository.GetAllContacts();
+            dataGridView_Contactos.DataSource = contactos;
         }
         private string TextId;
         private string Nombre;
@@ -98,7 +101,15 @@ namespace Agenda
 
         private void buttonEliminar(object sender, EventArgs e)
         {
-            ESTADO = state.ELIMINAR;
+            if (textBox_ID.Text != string.Empty)
+            {
+                ESTADO = state.ELIMINAR;
+                button_Aniadir.Visible = false;
+                button_Modificar.Visible = false;
+                textBox_ID.BackColor = Color.DarkRed;
+                
+            }
+
         }
 
         private void buttonModificar(object sender, EventArgs e)
@@ -108,7 +119,24 @@ namespace Agenda
 
         private void buttonCancelar(object sender, EventArgs e)
         {
+            if (ESTADO == state.ANIADIR)
+            {
+                Reset();
+            }
+            else if (ESTADO == state.ELIMINAR)
+            {
+                
+                Reset();
 
+            }
+            else if (ESTADO == state.MODIFICAR)
+            {
+                Reset();
+            }
+            else
+            {
+                Reset();
+            }
         }
 
         private void buttonGuardar(object sender, EventArgs e)
@@ -128,7 +156,14 @@ namespace Agenda
             }
             else if (ESTADO == state.ELIMINAR)
             {
-         
+                repository.ErraseContactById(Int32.Parse(textBox_ID.Text));
+                List<Contacto> contactos = repository.GetAllContacts();
+                dataGridView_Contactos.DataSource = contactos;
+                button_Aniadir.Visible = true;
+                button_Modificar.Visible = true;
+                
+                Reset();
+
             }
             else if (ESTADO == state.MODIFICAR)
             {
@@ -151,6 +186,8 @@ namespace Agenda
 
         private void Reset()
         {
+            textBox_ID.Text = string.Empty;
+            textBox_ID.BackColor = Color.WhiteSmoke;
             textBox_Nombre.Text= string.Empty;
             textBox_Telefono.Text= string.Empty;
             richTextBox_Observaciones.Text = string.Empty;

@@ -155,6 +155,7 @@
             // 
             // textBox_ID
             // 
+            textBox_ID.BackColor = Color.WhiteSmoke;
             textBox_ID.Location = new Point(249, 30);
             textBox_ID.Name = "textBox_ID";
             textBox_ID.ReadOnly = true;
@@ -236,10 +237,6 @@
             dataGridView_Contactos.Size = new Size(818, 255);
             dataGridView_Contactos.TabIndex = 6;
             dataGridView_Contactos.CellContentClick += dataGridViewContactos;
-
-
-            List<Contacto> contactos = repository.GetAllContacts();
-            dataGridView_Contactos.DataSource = contactos;
             // 
             // form1BindingSource1
             // 

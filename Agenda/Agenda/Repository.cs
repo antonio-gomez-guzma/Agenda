@@ -114,5 +114,29 @@ namespace Agenda
 
             return contacto;
         }
+        public void ErraseContactById(int id)
+        {
+            connection.Open();
+
+            string query = $"DELETE FROM Contactos WHERE Id = {id}";
+
+            try
+            {
+                if (connection != null)
+                {
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }
