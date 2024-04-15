@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             groupBox_Contacto = new GroupBox();
             richTextBox_Observaciones = new RichTextBox();
             label_Observaciones = new Label();
@@ -48,10 +49,12 @@
             form1BindingSource = new BindingSource(components);
             dataGridView_Contactos = new DataGridView();
             form1BindingSource1 = new BindingSource(components);
+            pictureBox1 = new PictureBox();
             groupBox_Contacto.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)form1BindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView_Contactos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)form1BindingSource1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // groupBox_Contacto
@@ -235,7 +238,7 @@
             dataGridView_Contactos.ReadOnly = true;
             dataGridView_Contactos.RowHeadersWidth = 62;
             dataGridView_Contactos.RowTemplate.Height = 33;
-            dataGridView_Contactos.Size = new Size(818, 255);
+            dataGridView_Contactos.Size = new Size(982, 255);
             dataGridView_Contactos.TabIndex = 6;
             dataGridView_Contactos.CellContentClick += dataGridViewContactos;
             // 
@@ -243,11 +246,22 @@
             // 
             form1BindingSource1.DataSource = typeof(Form1);
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(702, 42);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(258, 249);
+            pictureBox1.TabIndex = 7;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(842, 655);
+            ClientSize = new Size(1006, 666);
+            Controls.Add(pictureBox1);
             Controls.Add(dataGridView_Contactos);
             Controls.Add(button_Guardar);
             Controls.Add(button_Cancelar);
@@ -261,6 +275,7 @@
             ((System.ComponentModel.ISupportInitialize)form1BindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView_Contactos).EndInit();
             ((System.ComponentModel.ISupportInitialize)form1BindingSource1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -285,5 +300,6 @@
         private BindingSource form1BindingSource;
         private DataGridView dataGridView_Contactos;
         private BindingSource form1BindingSource1;
+        private PictureBox pictureBox1;
     }
 }

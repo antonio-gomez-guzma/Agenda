@@ -130,7 +130,8 @@ namespace Agenda
                                             reader.GetString(1),
                                             reader.GetDateTime(2),
                                             reader.GetString(3),
-                                            reader.GetString(4));
+                                            reader.GetString(4),
+                                            reader.GetString(5));
                             
                     reader.Close();
                 }

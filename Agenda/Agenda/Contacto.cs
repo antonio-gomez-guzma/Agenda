@@ -24,6 +24,7 @@ namespace Agenda
         //private DateTime FechaNacimiento;
         private string telefono;
         private string? observaciones;
+        private string? image;
 
 
         private const int NOMBRE_MAX_LENGTH = 100;
@@ -45,6 +46,15 @@ namespace Agenda
             FechaNacimiento = fechaNacimiento;
             this.telefono = telefono;
             this.observaciones = Observaciones;
+        }
+        public Contacto(int id, string nombre, DateTime fechaNacimiento, string telefono, string Observaciones, string Image)
+        {
+            this.id = id;
+            this.nombre = nombre;
+            FechaNacimiento = fechaNacimiento;
+            this.telefono = telefono;
+            this.observaciones = Observaciones;
+            this.image = Image;
         }
 
         public int Id
@@ -90,6 +100,11 @@ namespace Agenda
                     throw new ArgumentException($"{nameof(value)} exceeded max length {OBSERVACIONES_MAX_LENGTH}");
                 observaciones = value;
             }
+        }
+
+        public string? Image
+        {
+            get { return image; }
         }
     }
 }

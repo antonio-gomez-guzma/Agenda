@@ -63,7 +63,7 @@ namespace Agenda
         private void dateTimePickerFechaNacimiento(object sender, EventArgs e)
         {
 
-            DateTime fecha =  ((DateTimePicker)sender).Value;
+            DateTime fecha = ((DateTimePicker)sender).Value;
             FechaNacimiento = fecha.ToString("yyyy-MM-dd");
         }
 
@@ -97,8 +97,8 @@ namespace Agenda
             dateTimePicker_FechaNacimiento.Enabled = true;
             textBox_Telefono.Enabled = true;
             richTextBox_Observaciones.Enabled = true;
-            
-            
+
+
         }
 
         private void buttonEliminar(object sender, EventArgs e)
@@ -109,7 +109,7 @@ namespace Agenda
                 button_Aniadir.Visible = false;
                 button_Modificar.Visible = false;
                 textBox_ID.BackColor = Color.DarkRed;
-                                
+
             }
 
         }
@@ -117,7 +117,7 @@ namespace Agenda
         private void buttonModificar(object sender, EventArgs e)
         {
             if (textBox_ID.Text != string.Empty)
-            { 
+            {
                 ESTADO = state.MODIFICAR;
                 button_Aniadir.Visible = false;
                 button_Eliminar.Visible = false;
@@ -167,7 +167,7 @@ namespace Agenda
 
         private void buttonGuardar(object sender, EventArgs e)
         {
-            if(ESTADO == state.ANIADIR)
+            if (ESTADO == state.ANIADIR)
             {
                 repository.AniadirContacto(1, Nombre, FechaNacimiento, Telefono, Observaciones);
                 List<Contacto> contactos = repository.GetAllContacts();
@@ -187,7 +187,7 @@ namespace Agenda
                 dataGridView_Contactos.DataSource = contactos;
                 button_Aniadir.Visible = true;
                 button_Modificar.Visible = true;
-                
+
                 Reset();
 
             }
@@ -217,9 +217,10 @@ namespace Agenda
                 DataGridViewRow selectedRow = dataGridView_Contactos.Rows[e.RowIndex];
                 //richTextBox_Observaciones.Text = selectedRow.Cells["Id"].Value.ToString();
                 MostrarContactoById((int)selectedRow.Cells["Id"].Value);
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
-               Console.WriteLine(ex.ToString());
+                Console.WriteLine(ex.ToString());
             }
         }
 
@@ -227,8 +228,8 @@ namespace Agenda
         {
             textBox_ID.Text = string.Empty;
             textBox_ID.BackColor = Color.WhiteSmoke;
-            textBox_Nombre.Text= string.Empty;
-            textBox_Telefono.Text= string.Empty;
+            textBox_Nombre.Text = string.Empty;
+            textBox_Telefono.Text = string.Empty;
             richTextBox_Observaciones.Text = string.Empty;
         }
 
@@ -237,15 +238,35 @@ namespace Agenda
             Contacto contacto = repository.GetContactById(id);
             if (contacto != null)
             {
-                textBox_ID.Text = contacto.Id.ToString();    
+                textBox_ID.Text = contacto.Id.ToString();
                 textBox_Nombre.Text = contacto.Nombre;
                 dateTimePicker_FechaNacimiento.Text = contacto.FechaNacimiento.ToString();
                 textBox_Telefono.Text = contacto.Telefono;
                 richTextBox_Observaciones.Text = contacto.Observaciones;
-
+                pictureBox1.Image = fromB64ToImage(contacto.Image);
+                //pictureBox1.Image = fromB64ToImage("contacto.Image"); //PRUEBAS
             }
 
         }
-     
+        private Image fromB64ToImage(string base64)
+        {
+            byte[] imageBytes = Convert.FromBase64String(base64);
+
+            Image originalImage = ByteArrayToImage(imageBytes);
+
+            return originalImage;
+        }
+        static Image ByteArrayToImage(byte[] byteArrayIn)
+        {
+            using (MemoryStream ms = new MemoryStream(byteArrayIn))
+            {
+                return Image.FromStream(ms);
+            }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
